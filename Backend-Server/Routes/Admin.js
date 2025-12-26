@@ -66,4 +66,69 @@ router.delete("/course/delete/:courseId", authorizedUser, (req, res) => {
   });
 });
 
+// fetch all videos
+router.get("/video/all-videos", authorizedUser, (req, res) => {
+  const courseId = req.query.courseId; //not fixed may have to ask
+
+  let sql = "Select * from videos where course_id = ?";
+
+  pool.query(sql, [courseId], (error, data) => {
+    res.send(createResponse(error, data));
+  });
+});
+
+// add new video
+router.post("/video/add", authorizedUser, (req, res) => {
+  const { courseId, title, desc, youtubeURL } = req.body;
+
+  let sql =
+    "Insert into videos(course_id,title,description,youtube_url,added_at) values (?,?,?,?,CURDATE())"; // youtube url null
+
+  pool.query(sql, [courseId, title, desc, youtubeURL], (error, data) => {
+    res.send(createResponse(error, data));
+  });
+});
+
+// update video
+router.put("/video/update/:videoId", authorizedUser, (req, res) => {
+  const videoId = req.params.videoId;
+  const { courseId, title, desc, youtubeURL } = req.body;
+
+  let sql =
+    "Update videos SET course_id = ?,title = ?,description = ?,youtube_url = ? where video_id = ?";
+
+  pool.query(
+    sql,
+    [courseId, title, desc, youtubeURL, videoId],
+    (error, data) => {
+      res.send(createResponse(error, data));
+    }
+  );
+});
+
+// delete video
+router.delete("/video/delete/:videoId", authorizedUser, (req, res) => {
+  const videoId = req.params.videoId;
+
+  let sql = "Delete from videos where video_id = ?";
+
+  pool.query(sql, [videoId], (error, data) => {
+    res.send(createResponse(error, data));
+  });
+});
+
+// to enrolled student
+router.get("/admin/enrolled-students", authorizedUser, (req, res) => {
+  const courseId = req.query.courseId;
+
+  let sql = "Select * from students where course_id = ?";
+
+  pool.query(sql, [courseId], (error, data) => {
+    res.send(createResponse(error, data));
+  });
+});
+
+module.exports = router;
+
+
 module.exports = router;
