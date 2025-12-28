@@ -7,10 +7,14 @@ const publicRouter = require("./Routes/Public");
 //This line imports the Admin routes module and stores it in adminRouter.
 const adminRouter = require("./Routes/Admin");
 
+//This line imports the Student routes module and stores it in adminRouter.
+const studentRouter =require("./Routes/Student")
+
 app.use(express.json());
 
 app.use("/public", publicRouter);
 app.use("/admin",  adminRouter);
+app.use("/student",studentRouter);
 
 app.listen(4000, () => {
   console.log("Server started on port 4000 .......");
