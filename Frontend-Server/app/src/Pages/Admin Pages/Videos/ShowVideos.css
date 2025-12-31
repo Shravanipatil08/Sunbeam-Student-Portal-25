@@ -1,0 +1,171 @@
+.main-div{
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+    justify-content: flex-start;
+}
+/* Page background */
+body {
+    background-color: #f4f6f9;
+}
+
+/* Outer table container */
+.table-div {
+    padding: 20px;
+}
+
+/* Main content wrapper */
+.main-div {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Dropdown section */
+.dropdown {
+    margin-bottom: 15px;
+}
+
+/* Dropdown button */
+.dropdown-toggle {
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Dropdown item */
+.dropdown-item {
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f3f6;
+}
+
+/* Table base */
+.register-info-table {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Table header */
+.register-info-table thead {
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+.register-info-table thead td {
+    padding: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Table body cells */
+.register-info-table tbody td {
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Hover effect */
+.register-info-table tbody tr:hover {
+    background-color: #f5f7fa;
+}
+
+/* Description column wrap */
+.register-info-table td:nth-child(4) {
+    max-width: 250px;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+/* Youtube URL wrap */
+.register-info-table td:nth-child(5) {
+    max-width: 200px;
+    word-break: break-all;
+}
+
+/* Loading text */
+p {
+    font-size: 18px;
+    color: #555;
+}
+
+.action-btn-group {
+    display: inline-flex;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+
+.action-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Edit button (yellow) */
+.edit-btn {
+    background-color: #ffc107;
+    color: #000;
+}
+
+/* Delete button (red) */
+.delete-btn {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+/* Hover effects */
+.edit-btn:hover {
+    background-color: #e0a800;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Remove focus outline */
+.action-btn:focus {
+    outline: none;
+}
+/* Prevent breaking for all cells by default */
+.register-info-table th,
+.register-info-table td {
+    white-space: nowrap;
+}
+
+/* Description column wrap */
+.register-info-table td:nth-child(4) {
+    max-width: 220px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* YouTube URL column FIX */
+.register-info-table td:nth-child(5) {
+    max-width: 300px;
+    white-space: normal;
+    word-break: break-all;   /* 🔥 breaks long URLs */
+}
+
+/* Protect Action column */
+.register-info-table td:last-child,
+.register-info-table th:last-child {
+    min-width: 120px;
+    white-space: nowrap;
+}
