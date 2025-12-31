@@ -11,7 +11,7 @@ router.post("/auth/login", (req, res) => {
 
   let cryptoPassword = hashPassword.SHA256(password).toString();
 
-  let sql = "Select * from users where email = ? and password=?";
+  let sql = "Select u.*,s.name from users u Left join students s on u.email = s.email where u.email = ? and password = ?";
 
   pool.query(sql, [email, cryptoPassword], (error, data) => {
     try {
@@ -21,6 +21,7 @@ router.post("/auth/login", (req, res) => {
       };
       let token = jsonToken.sign(payload, SECRET);
       let newResponse = {
+        name:data[0].name || "Admin",
         email: data[0].email,
         role: data[0].role,
         token: token,
@@ -35,7 +36,7 @@ router.post("/auth/login", (req, res) => {
 // get all active courses
 router.get("/courses/all-active-courses", (req, res) => {
   //logic may be wrong from database
-  let sql = "Select * from courses where start_date > CURDATE()";
+  let sql = "Select * from courses where end_date >= CURDATE()";
 
   pool.query(sql, (error, data) => {
     res.send(createResponse(error, data));

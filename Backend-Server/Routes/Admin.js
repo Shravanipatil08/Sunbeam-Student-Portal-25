@@ -4,35 +4,49 @@ const router = express.Router();
 const pool = require("../Database/db"); //database connection
 const createResponse = require("../Utils/Response");
 const { authorizedUser } = require("../Utils/userAuth");
+
+const multer = require('multer')
+
+// configure multer for file upload
+const storage = multer.diskStorage({
+  destination: "uploads/courses",
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  }
+})
+
+const upload = multer({ storage })
 //Courses API's
 
 // get all courses
 router.get("/course/all-courses", authorizedUser, (req, res) => {
-  // check with correct dates from database
-  const startDate = req.query.start_date;
-  const endDate = req.query.end_date;
+  const { start_date, end_date } = req.query;
 
-  let sql = "Select * from courses where start_date >= ? AND end_date <= ?";
+  let sql = "SELECT * FROM courses";
+  let params = [];
+  
+  if (start_date && end_date) {
+    sql += " WHERE start_date >= ? AND end_date <= ?";
+    params.push(start_date, end_date);
+  }
 
-  pool.query(sql, [startDate, endDate], (error, data) => {
+  pool.query(sql, params, (error, data) => {
     res.send(createResponse(error, data));
   });
 });
 
 // add new course
-router.post("/course/add", authorizedUser, (req, res) => {
-  const { courseName, desc, fees, startDate, endDate, videoExpireDays } =
-    req.body;
+router.post("/course/add", authorizedUser, upload.single("image"), (req, res) => {
+  const { courseName, desc, fees, startDate, endDate, videoExpireDays } = req.body;
+
+  const imagePath = req.file ? `uploads/courses/${req.file.filename}` : "uploads/courses/default.png"
 
   let sql =
-    "Insert into courses(course_name,description,fees,start_date,end_date,video_expire_days) VALUES (?,?,?,?,?,?)";
+    "Insert into courses(course_name,description,fees,start_date,end_date,video_expire_days,course_image)VALUES (?,?,?,?,?,?,?)";
 
-  pool.query(
-    sql,
-    [courseName, desc, fees, startDate, endDate, videoExpireDays],
-    (error, data) => {
-      res.send(createResponse(error, data));
-    }
+  pool.query(sql, [courseName, desc, fees, startDate, endDate, videoExpireDays, imagePath], (error, data) => {
+    res.send(createResponse(error, data));
+  }
   );
 });
 
@@ -66,13 +80,21 @@ router.delete("/course/delete/:courseId", authorizedUser, (req, res) => {
   });
 });
 
+// videos API's
+
 // fetch all videos
 router.get("/video/all-videos", authorizedUser, (req, res) => {
-  const courseId = req.query.courseId; //not fixed may have to ask
+  const courseId = req.query.courseId;
 
-  let sql = "Select * from videos where course_id = ?";
+  let sql = "Select * FROM videos"
+  let params = []                                 //add
 
-  pool.query(sql, [courseId], (error, data) => {
+  if (courseId) {                           //added logic
+    sql += " Where course_id = ?"
+    params.push(courseId)
+  }
+
+  pool.query(sql, params, (error, data) => {
     res.send(createResponse(error, data));
   });
 });
@@ -92,14 +114,14 @@ router.post("/video/add", authorizedUser, (req, res) => {
 // update video
 router.put("/video/update/:videoId", authorizedUser, (req, res) => {
   const videoId = req.params.videoId;
-  const { courseId, title, desc, youtubeURL } = req.body;
+  const { title, desc, youtubeURL } = req.body;
 
   let sql =
-    "Update videos SET course_id = ?,title = ?,description = ?,youtube_url = ? where video_id = ?";
+    "Update videos SET title = ?,description = ?,youtube_url = ? where video_id = ?";
 
   pool.query(
     sql,
-    [courseId, title, desc, youtubeURL, videoId],
+    [title, desc, youtubeURL, videoId],
     (error, data) => {
       res.send(createResponse(error, data));
     }
@@ -117,18 +139,20 @@ router.delete("/video/delete/:videoId", authorizedUser, (req, res) => {
   });
 });
 
-// to enrolled student
+// get enrolled student
 router.get("/admin/enrolled-students", authorizedUser, (req, res) => {
-  const courseId = req.query.courseId;
+  const courseId  = req.query.courseId;
+  let sql = "SELECT s.*,c.course_name FROM students s JOIN courses c on s.course_id = c.course_id";
+  let params = [];
 
-  let sql = "Select * from students where course_id = ?";
+  if (courseId) {
+    sql += " WHERE s.course_id = ?";
+    params.push(courseId);
+  }
 
-  pool.query(sql, [courseId], (error, data) => {
+  pool.query(sql, params, (error, data) => {
     res.send(createResponse(error, data));
   });
 });
-
-module.exports = router;
-
 
 module.exports = router;
