@@ -1,0 +1,102 @@
+
+
+/* Page background */
+body {
+    background-color: #f4f6f9;
+}
+
+/* Main container */
+.table-div {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Dropdown container */
+.dropdown {
+    margin-bottom: 15px;
+}
+
+/* Dropdown button */
+.dropdown-toggle {
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Dropdown items */
+.dropdown-item {
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f3f6;
+}
+
+/* Table base */
+.register-info-table {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Table header */
+.register-info-table thead {
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+.register-info-table thead td {
+    padding: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Table body */
+.register-info-table tbody td {
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Row hover */
+.register-info-table tbody tr:hover {
+    background-color: #f5f7fa;
+}
+
+/* Email column wrap */
+.register-info-table td:nth-child(3) {
+    max-width: 220px;
+    word-break: break-all;
+}
+
+/* Loading text */
+.container p {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 40px;
+    color: #555;
+}
+/* Force vertical layout */
+.filter-row {
+    display: block;
+    margin-bottom: 15px;
+}
+
+/* Keep dropdown from floating */
+.dropdown {
+    display: inline-block;
+}
+.register-info-table td:nth-child(3),
+.register-info-table td:nth-child(5) {
+    white-space: nowrap;
+}
+
